@@ -1,0 +1,35 @@
+To enable PING
+1. cd to root
+2. navigate to /etc
+3. open resolv.conf with nano or vi
+4. add the following lines "nameerver 8.8.8.8" and "nameserver 8.8.4.4"
+5. DONE ! Try ping google.com
+
+To enable apt-get
+1. go to local.conf in yocto/build/conf/
+2. open with vi or nano
+3. add following lines:
+3.1  PACKAGE_CLASSES = "package_deb"
+3.2  PACKAGE_FEED_URIS = "http://127.0.0.1:7777" # http://192.168.7.1:8000
+3.3  EXTRA_IMAGE_FEATURES = "package-management"
+3.4  IMAGE_INSTALL_append = " apt"
+4. Then save the edited local.conf
+5. run following commands
+5.1 bitbake core-image-full-cmdline
+5.2 bitbake package-index
+5.3 cd build/tmp/deploy/deb
+5.4 python3 -m http.server 7777
+5.5 In another terminal start the build
+6. cd into root then run the following command
+6.1  sudo touch /var/lib/dpkg/status
+7. DONE!
+
+
+To install nano package:
+1. Add the following meta-layer in bblayers.conf (recipe is to build nano is in this metalayer" 
+1.1   ${TOPDIR}/../sources/meta-openembedded/meta-oe \
+2. Add following line in local.conf
+2.1 IMAGE_INSTALL_append = " nano"
+3. Build Again and DONE!
+
+
